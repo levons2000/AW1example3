@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">GalleryProject</string>
+    <string name="drowable">Drowable</string>
+    <string name="url">URL</string>
+    <string name="gallery">Gallery</string>
+</resources>
