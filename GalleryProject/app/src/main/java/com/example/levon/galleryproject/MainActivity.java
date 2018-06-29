@@ -20,19 +20,17 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    private Button button1;
-    private Button button2;
-    private Button button3;
     private ImageView imageView;
     private static final int REQUEST_FOR_GALLERY = 128;
+    private static final String PHOTO_PATH = "https://www.gettyimages.ca/gi-resources/images/Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        button1 = findViewById(R.id.buttondrow);
-        button2 = findViewById(R.id.buttonurl);
-        button3 = findViewById(R.id.buttongallery);
+        Button button1 = findViewById(R.id.buttondrow);
+        Button button2 = findViewById(R.id.buttonurl);
+        Button button3 = findViewById(R.id.buttongallery);
         imageView = findViewById(R.id.openimage);
         button1.setOnClickListener(this);
         button2.setOnClickListener(this);
@@ -47,14 +45,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 imageView.setImageResource(R.drawable.aaa);
                 break;
             case R.id.buttonurl:
-                Picasso.get().load("https://www.gettyimages.ca/gi-resources/images/" +
-                        "Homepage/Hero/UK/CMS_Creative_164657191_Kingfisher.jpg").into(imageView);
+                Picasso.get().load(PHOTO_PATH).into(imageView);
                 break;
             case R.id.buttongallery:
                 Intent intent = new Intent(Intent.ACTION_PICK);
-                File picturedirectory = Environment.getExternalStoragePublicDirectory(Environment.MEDIA_CHECKING);
-                String picturedirectorypath = picturedirectory.getPath();
-                Uri data = Uri.parse(picturedirectorypath);
+                File pictureDirectory = Environment.getExternalStoragePublicDirectory(Environment.MEDIA_CHECKING);
+                String pictureDirectoryPath = pictureDirectory.getPath();
+                Uri data = Uri.parse(pictureDirectoryPath);
                 intent.setDataAndType(data, "image/*");
                 startActivityForResult(intent, REQUEST_FOR_GALLERY);
 
@@ -65,14 +62,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_FOR_GALLERY && data != null) {
-                Uri imagepath = data.getData();
+                Uri imagePath = data.getData();
                 InputStream inputStream;
                 try {
-                    inputStream = getContentResolver().openInputStream(imagepath);
+                    inputStream = getContentResolver().openInputStream(imagePath);
                     Bitmap image = BitmapFactory.decodeStream(inputStream);
                     imageView.setImageBitmap(image);
                 } catch (FileNotFoundException e) {
-                    Toast.makeText(this, "mi ban en chi axper", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.exceptiontoast, Toast.LENGTH_SHORT).show();
                 }
             }
         }
